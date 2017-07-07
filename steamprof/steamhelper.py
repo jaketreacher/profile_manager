@@ -1,15 +1,20 @@
 import binascii
 import re
 import time
-import pdb
 
 def splitn(string, n):
 	if not isinstance(string, str):
 		raise TypeError('string must be str, not ' + type(n).__name__)
+
 	if not isinstance(n, int):
 		raise TypeError('n must be int, not ' + type(n).__name__)
+
+	if n <= 0:
+		raise ValueError('n must be greater than 0')
+
 	if len(string) % n:
 		raise ValueError('invalid string length (%d), must be multiple of %d' % (len(string), n))
+		
 	return [string[i: i+n] for i in range(0, len(string), n)]
 
 class Game:
@@ -65,7 +70,7 @@ class Game:
 		"""Extract the timestamp value
 
 		Format:
-			\x02LastPlayTime\x00(\xHH\xHH\xHH\xHH) - where HH is any hex value
+			\x02LastPlayTime\x00(HH HH HH HH) - where HH is any hex value
 			
 			Similiar to extract_bool, except we want all four end chars, and we also
 			want to convert it into a timestamp as it may require manipulation.
@@ -76,7 +81,7 @@ class Game:
 		return:
 			(int): timestamp, seconds since epoch
 		"""
-		timestamp = re.search('\\x02LastPlayTime\\x00(.*?)\\x00tags', self.data).group(1)
+		timestamp = re.search(r'\\x02LastPlayTime\\x00(.*?)\\x00tags', self.data).group(1)
 		return Game.decode_timestamp(timestamp)
 
 	def encode_timestamp(timestamp):

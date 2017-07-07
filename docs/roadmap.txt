@@ -1,0 +1,20 @@
+Roadmap
+
+Version 1.0 Features
+???
+
+Version 0.5
+???
+
+Version 0.4
+Drag game onto exe to add
+
+Version 0.3
+Download grid image for game
+
+Version 0.2
+Read config data from ini file
+Add game via config
+
+Version 0.1
+Read/Write shortcuts.vdf
